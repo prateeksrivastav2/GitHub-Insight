@@ -1,6 +1,6 @@
 
 // url for api calling
-const gitapi = "http://api.github.com/users/";
+const gitapi = "https://api.github.com/users/";
 const main = document.querySelector("#main");
 const repost = document.querySelector("#repost");
 const form = document.querySelector("#form");
