@@ -1,4 +1,3 @@
-
 // url for api calling
 const gitapi = "https://api.github.com/users/";
 const main = document.querySelector("#main");
@@ -26,6 +25,7 @@ const hideLoader = () => {
 const getuser = async (username) => {
     showLoader();
     // api calling
+    if(username=="")showAlert();
     const response = await fetch(gitapi + username);
     const limit = response.headers.get('X-RateLimit-Limit');
     const remaining = response.headers.get('X-RateLimit-Remaining');
@@ -38,20 +38,20 @@ const getuser = async (username) => {
     if (!response.ok) {
         showAlert();
         hideLoader();
-        return; 
+        return;
     }
- 
+
     // Fetched the data
     const data = await response.json();
-    
+
     // getting data of each repositries
     // api calling set to 100 perpage but it will reach api calling limit
     const repo = await fetch(`${data.repos_url}?per_page=100`);
     const reposData = await repo.json();
-    let lc=data.location;
-    let twit=data.location;
-    if(lc==null)lc="Location is not present";
-    if(twit==null)twit="Twitter name is not present";
+    let lc = data.location;
+    let twit = data.location;
+    if (lc == null) lc = "Location is not present";
+    if (twit == null) twit = "Twitter name is not present";
     // intializing the size so that we can use it further
     size = reposData.length;
     const card = `
@@ -116,8 +116,8 @@ const displayRepositories = async (repos) => {
                 <div class="card-body">
                     <h5 class="card-title">${repos[index].name}</h5>
                     <p class="card-text">${repos[index].description}</p>`;
-            // adding languages that is associated with the current repositries also added link of 
-            // overapi show that it become responsive 
+        // adding languages that is associated with the current repositries also added link of 
+        // overapi show that it become responsive 
         for (let ind = 0; ind < languages.length; ind++) {
             let search = languages[ind].toLowerCase();
             reposdetail += `<a href="https://overapi.com/${search}" class="btn btn-primary mx-1 my-1" target="_blank">${languages[ind]}</a>`;
@@ -151,6 +151,7 @@ const renderPagination = (totalRepos) => {
                         <a class="page-link" href="#" onclick="changePage(${pageNum})">${pageNum}</a>
                     </li>
                 `)}
+                
                 <li class="page-item ${currentPage === totalPages ? 'disabled' : ''}">
                     <a class="page-link" href="#" onclick="handleNextClick()">Next</a>
                 </li>
@@ -159,6 +160,7 @@ const renderPagination = (totalRepos) => {
     `;
     pagination.innerHTML = paginationHtml;
 };
+
 
 const changePage = (newPage) => {
     showLoader();
@@ -186,25 +188,25 @@ const handleNextClick = () => {
 const getusername = () => {
     showLoader();
     let username = document.getElementById('uname').value;
-    let pgno=9;
-     pgno=document.getElementById('numberofrep').value;
-     if(!pgno)
-     pgno=9;
+    let pgno = 9;
+    pgno = document.getElementById('numberofrep').value;
+    if (!pgno)
+        pgno = 9;
     // intializing the username to global variable user so that we can use the name further 
     user = username;
-    perPage=pgno;
+    perPage = pgno;
     // calling the getuser to get details of the user line 26
     getuser(username);
 }
 // navbar 
 
-const navbar=()=>{
-    const nv=`
+const navbar = () => {
+    const nv = `
     <nav class="navbar fixed-top navbar-dark bg-dark ">
         <a class="navbar-brand" href="" >GitHub Insight</a>
       </nav>
     `
-    nav.innerHTML=nv;
+    nav.innerHTML = nv;
 }
 navbar();
 
