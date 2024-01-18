@@ -215,6 +215,7 @@ const displayform = () => {
     hideLoader();
     const formHtml = `
         <form onsubmit="event.preventDefault(); getusername();">
+        <div><h4>Enter the details</h4></div>
             <div class="form-group">
                 <label >Name</label>
                 <input type="name" class="form-control" name="name" id="uname" aria-describedby="name" placeholder="Enter Name">
